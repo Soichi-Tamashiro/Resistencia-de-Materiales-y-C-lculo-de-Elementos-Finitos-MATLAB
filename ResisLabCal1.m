@@ -38,3 +38,32 @@ a = abs(cosh(1.25));
 b = 45*10^22;
 subs(X)
 subs(Y)
+%
+% 2.-
+%
+syms x
+% Definimos el intervalo
+x=-6:6;
+% Funciones
+f= ((((x.^2)+2).^2)./(200))-2*exp(-5*x./6);
+g=((x.^2)./(20)).*cos(1+x.^2)+1;
+h=f.*g;
+% Ploteamos en la misma Figura
+subplot(2,2,1)
+plot(x,f)
+grid 
+title('f(x)')
+xlabel('x')
+ylabel('f(x)')
+subplot(2,2,2)
+plot(x,g)
+grid 
+title('g(x)')
+xlabel('x')
+ylabel('g(x)')
+subplot(2,2,3)
+plot(x,h)
+grid 
+title('h(x)')
+xlabel('x')
+ylabel('h(x)')
