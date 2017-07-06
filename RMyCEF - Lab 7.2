@@ -1,0 +1,45 @@
+%prueba01.m
+clc
+format long
+syms x L I E wo
+M=wo*L*x/2-wo*x*x/2
+y=dsolve('D2y=(wo*L*x/2-wo*x*x/2)/(E*I)','y(0)=0','y(L)=0','x')
+pretty(y)
+yy=subs(y,{E I L wo},{2e9 5e-4 2 5000})
+n=input('Numero de Particiones = ')
+long=2
+v=[ ];
+xxx=0:long/n:long
+for xx=xxx;
+  yyy=subs(yy,x,xx);
+  v=[v;yyy] ;
+end  
+v
+plot(xxx,v,'d'),grid
+
+%prueba02.m
+% solucion numerica mediante diferencias finitas
+clc, clear all
+n=input('Numero de particiones=')
+L=2; E=2e9; I=5e-4; wo=5000;
+h=L/n;
+xx=0:h:L;
+M=wo*L*xx/2-wo*xx.^2/2
+M1=M(2:n)'
+M2=M1*h^2/(E*I)
+D=-2*diag(ones(n-1,1))
+D1=diag(ones(n-2,1),1)
+D2=diag(ones(n-2,1),-1)
+T=D+D1+D2
+y=T\M2
+yt=[0 y' 0]
+plot(xx,yt,'d'),grid
+% solucion analitica
+syms x L I E wo
+y=dsolve('D2y=(wo*L*x/2-wo*x*x/2)/(E*I)','y(0)=0','y(L)=0','x')
+yy=subs(y,{E I L wo},{2e9 5e-4 2 5000})
+yyy=subs(yy,xx)
+% plot(xx,yt,'d',xx,yyy,'*'),grid
+plot(xx,yt,xx,yyy),grid
+legend('Solucion Numerica','Solucion Exacta')
+title('Comparacion entre la solucion Numerica y Exacta')
